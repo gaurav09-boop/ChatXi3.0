@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: chartxi
+    runtime: static
+    buildCommand: ''
+    staticPublishPath: .

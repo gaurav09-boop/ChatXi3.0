@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="ChartXi — a clean, powerful chart and data visualization studio.">
+<title>ChartXi — Data Visualization Studio</title>
+<link rel="icon" type="image/png" href="assets/chartxi-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+ <aside class="sidebar">
+  <div class="brand"><img src="assets/chartxi-logo.png" alt="ChartXi logo"><span>Chart<span>Xi</span></span></div>
+  <div class="side-caption">WORKSPACE</div>
+  <a class="nav active" href="#dashboard"><b>⌂</b> Dashboard</a>
+  <a class="nav" href="#dataSection"><b>▤</b> Data input</a>
+  <a class="nav" href="#chartSection"><b>▥</b> Charts</a>
+  <a class="nav" href="#designSection"><b>◈</b> Design & colors</a>
+  <div class="side-card"><div class="spark">✦</div><strong>Your data, beautifully told.</strong><p>Turn spreadsheets into clear, polished visuals in seconds.</p></div>
+  <div class="side-bottom"><span class="dot"></span> Runs in your browser<br><small>Private · No account needed</small></div>
+ </aside>
+ <main class="main" id="dashboard">
+  <header class="topbar"><div><div class="overline">YOUR VISUAL DATA WORKSPACE</div><h1>Dashboard</h1></div><div class="top-right"><span class="privacy"><i></i> Private by design</span><button class="btn red" id="downloadBtn">↓ Download PNG</button></div></header>
+  <section class="hero"><div><div class="overline">CHARTXI STUDIO</div><h2>Make your data <em>make sense.</em></h2><p>Import your data, choose a visualization, and customize every detail.</p></div><div class="hero-steps"><span>01 <small>DATA</small></span><i></i><span>02 <small>VISUALIZE</small></span><i></i><span>03 <small>EXPORT</small></span></div></section>
+  <section class="top-grid">
+   <article class="card data-card" id="dataSection">
+    <div class="card-head"><div><label>01 / INPUT</label><h3>Your data</h3></div><span class="tag">EDIT ANYTIME</span></div>
+    <div class="tabs"><button class="tab active" data-tab="manual">✎ Manual data</button><button class="tab" data-tab="upload">↑ Upload file</button><button class="tab" data-tab="sheet">↗ Sheet link</button></div>
+    <div class="tab-pane" id="manualPane"><label for="dataInput">Paste or edit CSV-style data</label><textarea id="dataInput" spellcheck="false">Month,Revenue,Expenses
+Jan,4200,2600
+Feb,5100,3100
+Mar,4700,2900
+Apr,6300,3500
+May,7200,3900
+Jun,6800,3700</textarea><p class="hint">First row = column names · First column = labels · Other columns = values</p><div class="actions"><button class="btn red" id="applyData">Apply data ↗</button><button class="link-btn" id="sampleData">Restore sample</button></div></div>
+    <div class="tab-pane hidden" id="uploadPane"><label class="dropzone" for="fileInput"><b>＋</b><strong>Drop your spreadsheet here</strong><span>or click to browse · CSV, XLSX, XLS</span><small>Files are processed locally in your browser.</small></label><input id="fileInput" type="file" accept=".csv,.xlsx,.xls" hidden><p class="hint" id="fileStatus">Choose a file to load its first worksheet.</p></div>
+    <div class="tab-pane hidden" id="sheetPane"><label for="sheetUrl">Public Google Sheets link</label><input id="sheetUrl" class="field" placeholder="Paste a Google Sheets URL"><button class="btn red" id="loadSheet">Import sheet</button><p class="hint" id="sheetStatus">Set sharing to “Anyone with the link can view”.</p></div>
+    <div class="preview-head"><strong>Data preview</strong><span id="rowCount">6 rows</span></div><div class="table-wrap"><table id="dataTable"></table></div>
+   </article>
+   <article class="card chart-card" id="chartSection">
+    <div class="card-head"><div><label>02 / VISUALIZE</label><h3>Choose your chart</h3></div><span class="tag" id="chartTypeTag">BAR CHART</span></div>
+    <div class="chart-types" id="chartTypes">
+     <button class="chart-type active" data-type="bar"><b>▥</b>Bar</button><button class="chart-type" data-type="line"><b>⌁</b>Line</button><button class="chart-type" data-type="pie"><b>◕</b>Pie</button><button class="chart-type" data-type="doughnut"><b>◎</b>Doughnut</button><button class="chart-type" data-type="radar"><b>⬡</b>Radar</button><button class="chart-type" data-type="polarArea"><b>◉</b>Polar area</button><button class="chart-type" data-type="scatter"><b>⠿</b>Scatter</button><button class="chart-type" data-type="bubble"><b>◌</b>Bubble</button><button class="chart-type" data-type="area"><b>◢</b>Area</button><button class="chart-type" data-type="mixed"><b>▤</b>Mixed</button>
+    </div>
+    <div class="chart-heading"><div><label>LIVE PREVIEW</label><h3 id="previewTitle">Revenue &amp; expenses</h3></div><span class="live"><i></i> LIVE</span></div>
+    <div class="chart-wrap"><canvas id="mainChart"></canvas></div>
+    <div class="chart-foot"><span><i></i> Updates as you edit</span><span id="chartMeta">6 labels · 2 data series</span></div>
+   </article>
+  </section>
+  <section class="card design-card" id="designSection">
+   <div class="card-head"><div><label>03 / PERSONALIZE</label><h3>Make it yours</h3></div><button class="link-btn" id="resetDesign">↻ Reset design</button></div>
+   <div class="design-grid">
+    <div class="control"><label for="chartTitle">Chart title</label><input class="field" id="chartTitle" value="Revenue & expenses"></div>
+    <div class="control"><label for="mainColor">Main color</label><div class="color-field"><input type="color" id="mainColor" value="#d20d16"><span id="mainColorText">Ruby red</span></div></div>
+    <div class="control"><label for="canvasColor">Chart background</label><div class="color-field"><input type="color" id="canvasColor" value="#202a31"><span>Canvas background</span></div></div>
+    <div class="control options"><label>Chart options</label><label class="check"><input type="checkbox" id="showLegend" checked> Show legend</label><label class="check"><input type="checkbox" id="showGrid" checked> Show gridlines</label></div>
+   </div>
+   <div class="color-studio">
+    <div class="studio-head"><div><h4>Color studio</h4><p>Choose one color and let ChartXi create matching shades, or set each bar individually.</p></div><div class="mode-switch"><button class="mode active" id="autoMode">Automatic shades</button><button class="mode" id="manualMode">Pick each bar</button></div></div>
+    <div id="autoPanel" class="auto-panel"><div class="shade-info"><span class="shade-dot"></span><div><strong>Coordinated color shades</strong><small>All bars or slices get a balanced shade from your selected main color.</small></div></div><div id="shadeStrip" class="shade-strip"></div></div>
+    <div id="manualPanel" class="manual-panel hidden"><div class="manual-top"><strong>Individual bar / slice colors</strong><button class="link-btn" id="resetPointColors">Reset to automatic shades</button></div><div id="pointColors" class="point-colors"></div></div>
+   </div>
+  </section>
+  <footer><span>✦ CHARTXI</span><span>Your data stays on your device. Nothing is uploaded to a ChartXi server.</span></footer>
+ </main>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script src="app.js"></script>
+</body></html>
